@@ -2,12 +2,14 @@ import express, { Express, Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { db, port } from "./src/config/config";
+import userRoutes from './src/routes/userRoutes';
 
 //For env File
 dotenv.config();
 
 const app: Application = express();
-// const port = process.env.PORT || 8000;
+// Middleware to parse JSON requests
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
@@ -28,3 +30,6 @@ app.listen(port, () => {
       console.log(error, "connection error");
     });
 });
+
+// Define routes after middleware
+app.use('/users', userRoutes); // All user-related routes
